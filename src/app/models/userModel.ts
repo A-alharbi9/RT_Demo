@@ -10,6 +10,9 @@ class User {
 
   @prop({ default: 'sales associate' })
   public position!: string;
+
+  @prop({ required: true })
+  public offDay!: string;
 }
 
 export const userModel =
