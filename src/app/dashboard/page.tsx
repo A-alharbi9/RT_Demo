@@ -1,4 +1,4 @@
-function Dashboard() {
+export default async function Dashboard() {
   return (
     <div>
       <section>
@@ -49,93 +49,11 @@ function Dashboard() {
               Team
             </button>
           </div>
-          <div className="flex justify-around flex-wrap p-8 w-[80%]">
-            <div className="flex flex-col justify-center items-center h-36 basis-[28%] my-5 rounded-md bg-slate-300">
-              <p>AA</p>
-              <div className="w-[90%] text-center">
-                <p className=" text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-                  tenetur perspiciatis
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center items-center h-36 basis-[28%] my-5 rounded-md bg-slate-300">
-              <p>AA</p>
-              <div className="w-[90%] text-center">
-                <p className=" text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-                  tenetur perspiciatis
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center items-center h-36 basis-[28%] my-5 rounded-md bg-slate-300">
-              <p>AA</p>
-              <div className="w-[90%] text-center">
-                <p className=" text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-                  tenetur perspiciatis
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center items-center h-36 basis-[28%] my-5 rounded-md bg-slate-300">
-              <p>AA</p>
-              <div className="w-[90%] text-center">
-                <p className=" text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-                  tenetur perspiciatis
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center items-center h-36 basis-[28%] my-5 rounded-md bg-slate-300">
-              <p>AA</p>
-              <div className="w-[90%] text-center">
-                <p className=" text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-                  tenetur perspiciatis
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center items-center h-36 basis-[28%] my-5 rounded-md bg-slate-300">
-              <p>AA</p>
-              <div className="w-[90%] text-center">
-                <p className=" text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-                  tenetur perspiciatis
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center items-center h-36 basis-[28%] my-5 rounded-md bg-slate-300">
-              <p>AA</p>
-              <div className="w-[90%] text-center">
-                <p className=" text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-                  tenetur perspiciatis
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center items-center h-36 basis-[28%] my-5 rounded-md bg-slate-300">
-              <p>AA</p>
-              <div className="w-[90%] text-center">
-                <p className=" text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-                  tenetur perspiciatis
-                </p>
-              </div>
-            </div>
-            <div className="flex flex-col justify-center items-center h-36 basis-[28%] my-5 rounded-md bg-slate-300">
-              <p>AA</p>
-              <div className="w-[90%] text-center">
-                <p className=" text-sm">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit. Culpa
-                  tenetur perspiciatis
-                </p>
-              </div>
-            </div>
+          <div className="flex justify-around items-center  p-8 w-[80%]">
+            <p className="text-lg font-bold">Coming soon!</p>
           </div>
         </div>
       </section>
     </div>
   );
 }
-
-export default Dashboard;

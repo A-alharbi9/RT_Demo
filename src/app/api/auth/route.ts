@@ -1,19 +1,35 @@
 import connectDb from '@/app/config/db';
 import { userModel } from '@/app/models/userModel';
-import { NextResponse } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
+import jwt from 'jsonwebtoken';
 
-export async function POST() {
+export async function POST(req: NextRequest) {
   try {
     await connectDb();
 
-    const doesExist = await userModel.findOne({});
+    const body = await req.json();
+    const userId = body.userId.toLowerCase();
+
+    const doesExist = await userModel.findOne({ empId: userId });
 
     if (!doesExist) {
-      return NextResponse.json({ success: true });
+      return NextResponse.json({ success: false });
     }
-    return NextResponse.json({ success: false });
+
+    const user = {
+      id: doesExist.empId,
+      name: doesExist.fullName,
+      role: doesExist.position,
+    };
+
+    const token = jwt.sign(user, 'secret', { expiresIn: '1m' });
+
+    return NextResponse.json({ success: true, user, token });
   } catch (error) {
     /*TODO: Add better error handling*/
-    console.log(error);
+
+    if (error.message === 'jwt expired') {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
   }
 }

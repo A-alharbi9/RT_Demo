@@ -1,11 +1,54 @@
+'use client';
+
+import { BaseSyntheticEvent } from 'react';
+import cookies from 'js-cookie';
+import { useRouter } from 'next/router';
+
 export default function Home() {
+  const handleSubmit = async (event: BaseSyntheticEvent) => {
+    try {
+      event.preventDefault();
+
+      const formData = new FormData(event.target);
+      const userId = formData.get('userId');
+      const userPassword = formData.get('userPassword');
+
+      const res = await fetch('./api/auth', {
+        method: 'POST',
+        body: JSON.stringify({
+          userId,
+          password: userPassword,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      const data = await res.json();
+
+      cookies.set('user', JSON.stringify(data.user));
+
+      if (!cookies.get('jwt') && data.token) {
+        cookies.set('jwt', data.token);
+
+        const router = useRouter();
+
+        router.push('/dashboard');
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <div className="flex flex-col justify-center items-center h-[min(65rem,90vh)] overflow-x-hidden">
       <span className="bg-yellow-200 p-3 rounded-md w-full md:max-w-[20rem] text-center">
         <p className="font-bold">This project is under development</p>
       </span>
       <div className="flex flex-col justify-center items-center shadow-lg rounded-xl py-5 w-[min(30rem)] h-[30rem] mt-7">
-        <form className="flex flex-col justify-around items-center w-full h-[80%]">
+        <form
+          className="flex flex-col justify-around items-center w-full h-[80%]"
+          onSubmit={handleSubmit}
+        >
           <div className=" text-center">
             <h1 className="text-3xl lg:text-6xl">
               <span className="text-red-700">RED</span>
@@ -17,15 +60,22 @@ export default function Home() {
             <label>Id:</label>
             <input
               type="text"
+              name="userId"
               className="border border-blue-100 rounded-lg px-2"
+              maxLength={6}
             />
             <label className="mt-5">Password:</label>
             <input
               type="Password"
+              name="userPassword"
               className="border border-blue-100 rounded-lg px-2"
+              maxLength={8}
             />
           </div>
-          <button className="rounded-2xl text-md bg-blue-600 hover:bg-blue-400 transition duration-200 text-slate-100 w-28 h-9 mt-4">
+          <button
+            className="rounded-2xl text-md bg-blue-600 hover:bg-blue-400 transition duration-200 text-slate-100 w-28 h-9 mt-4"
+            type="submit"
+          >
             Punch in
           </button>
         </form>
