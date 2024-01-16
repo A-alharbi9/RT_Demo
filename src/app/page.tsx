@@ -26,16 +26,18 @@ export default function Home() {
 
       const data = await res.json();
 
-      cookies.set('user', JSON.stringify(data.user));
-
       if (!cookies.get('jwt') && data.token) {
+        cookies.set('user', JSON.stringify(data.user));
+
         cookies.set('jwt', data.token);
 
         const router = useRouter();
 
         router.push('/dashboard');
       }
-    } catch (error) {
+      // ! Should change this asap
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: any) {
       console.log(error);
     }
   };

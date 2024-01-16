@@ -25,7 +25,10 @@ export async function POST(req: NextRequest) {
     const token = jwt.sign(user, 'secret', { expiresIn: '1m' });
 
     return NextResponse.json({ success: true, user, token });
-  } catch (error) {
+
+    // ! Should change this asap
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
     /*TODO: Add better error handling*/
 
     if (error.message === 'jwt expired') {
