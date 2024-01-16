@@ -2,9 +2,11 @@
 
 import { BaseSyntheticEvent } from 'react';
 import cookies from 'js-cookie';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
   const handleSubmit = async (event: BaseSyntheticEvent) => {
     try {
       event.preventDefault();
@@ -30,8 +32,6 @@ export default function Home() {
         cookies.set('user', JSON.stringify(data.user));
 
         cookies.set('jwt', data.token);
-
-        const router = useRouter();
 
         router.push('/dashboard');
       }
