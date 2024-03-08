@@ -15,25 +15,39 @@ export default function Home() {
       const userId = formData.get('userId');
       const userPassword = formData.get('userPassword');
 
-      const res = await fetch('./api/auth', {
+      const response = await fetch('./api/jwt', {
         method: 'POST',
         body: JSON.stringify({
-          userId,
-          password: userPassword,
+          token: cookies.get('jwt'),
         }),
         headers: {
           'Content-Type': 'application/json',
         },
       });
 
-      const data = await res.json();
+      const jwtData = await response.json();
 
-      if (!cookies.get('jwt') && data.token) {
-        cookies.set('user', JSON.stringify(data.user));
+      if (!jwtData.isAuth) {
+        const fetchAuth = await fetch('./api/auth', {
+          method: 'POST',
+          body: JSON.stringify({
+            userId,
+            password: userPassword,
+          }),
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
 
-        cookies.set('jwt', data.token);
+        const data = await fetchAuth.json();
 
-        router.push('/dashboard');
+        if (data.token) {
+          cookies.set('user', JSON.stringify(data.user));
+
+          cookies.set('jwt', data.token);
+
+          router.push('/dashboard');
+        }
       }
       // ! Should change this asap
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

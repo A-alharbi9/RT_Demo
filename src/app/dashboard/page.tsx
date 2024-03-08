@@ -1,4 +1,11 @@
-export default async function Dashboard() {
+import { cookies } from 'next/headers';
+import { verifyTokenSSR } from '../utils/jwt';
+
+async function Dashboard() {
+  const userToken = cookies().get('jwt')?.value;
+
+  const tokenData = await verifyTokenSSR(userToken);
+
   return (
     <div>
       <section>
@@ -7,8 +14,10 @@ export default async function Dashboard() {
             <div className=" flex justify-around items-center">
               <div className=" h-10 w-10 bg-slate-300 rounded-[50%] mx-2"></div>
               <div className=" ">
-                <h1 className="">Mark</h1>
-                <h2 className="">Supervisor</h2>
+                <h1 className="">{tokenData ? tokenData.name : 'Mark'}</h1>
+                <h2 className="">
+                  {tokenData ? tokenData.role : 'Supervisor'}
+                </h2>
               </div>
             </div>
             <div className="">
@@ -57,3 +66,5 @@ export default async function Dashboard() {
     </div>
   );
 }
+
+export default Dashboard;
