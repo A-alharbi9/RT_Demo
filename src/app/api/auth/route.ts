@@ -22,7 +22,9 @@ export async function POST(req: NextRequest) {
       role: doesExist.position,
     };
 
-    const token = jwt.sign(user, process.env.JWT_SECRET, { expiresIn: '1d' });
+    const token = jwt.sign(user, process.env.JWT_SECRET as string, {
+      expiresIn: '1d',
+    });
 
     return NextResponse.json({ success: true, user, token });
 

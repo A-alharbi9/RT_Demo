@@ -2,7 +2,7 @@ import { cookies } from 'next/headers';
 import { verifyTokenSSR } from '../utils/jwt';
 
 async function Dashboard() {
-  const userToken = cookies().get('jwt')?.value;
+  const userToken = cookies().get('jwt')?.value as string;
 
   const tokenData = await verifyTokenSSR(userToken);
 
@@ -14,9 +14,9 @@ async function Dashboard() {
             <div className=" flex justify-around items-center">
               <div className=" h-10 w-10 bg-slate-300 rounded-[50%] mx-2"></div>
               <div className=" ">
-                <h1 className="">{tokenData ? tokenData.name : 'Mark'}</h1>
+                <h1 className="">{tokenData ? tokenData?.name : 'Mark'}</h1>
                 <h2 className="">
-                  {tokenData ? tokenData.role : 'Supervisor'}
+                  {tokenData ? tokenData?.role : 'Supervisor'}
                 </h2>
               </div>
             </div>

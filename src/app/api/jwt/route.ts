@@ -5,7 +5,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    jwt.verify(body.token, process.env.JWT_SECRET);
+    jwt.verify(body.token, process.env.JWT_SECRET as string);
 
     return NextResponse.json({ isAuth: true });
 
