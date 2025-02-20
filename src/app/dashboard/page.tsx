@@ -1,7 +1,29 @@
+import TabComponent from '../components/TabComponent';
 import { cookies } from 'next/headers';
 import { verifyTokenSSR } from '../utils/jwt';
+import { revalidatePath } from 'next/cache';
+
+async function getData() {
+  try {
+    const baseUrl =
+      process.env.NODE_ENV == 'development'
+        ? (process.env.DEV_URL as string)
+        : (process.env.PROD_URL as string);
+
+    const response = await fetch(baseUrl + 'api/team', {});
+
+    revalidatePath('/dashboard');
+
+    return response.json();
+  } catch (error: unknown) {
+    console.log('err: ', error.msg);
+    console.log('err: ', typeof error);
+  }
+}
 
 async function Dashboard() {
+  const data = await getData();
+
   const userToken = cookies().get('jwt')?.value as string;
 
   const tokenData = await verifyTokenSSR(userToken);
@@ -14,8 +36,10 @@ async function Dashboard() {
             <div className=" flex justify-around items-center">
               <div className=" h-10 w-10 bg-slate-300 rounded-[50%] mx-2"></div>
               <div className=" ">
-                <h1 className="">{tokenData ? tokenData?.name : 'Mark'}</h1>
-                <h2 className="">
+                <h1 className="capitalize">
+                  {tokenData ? tokenData?.name : 'Mark'}
+                </h1>
+                <h2 className="capitalize">
                   {tokenData ? tokenData?.role : 'Supervisor'}
                 </h2>
               </div>
@@ -44,23 +68,8 @@ async function Dashboard() {
         </div>
       </section>
       <section>
-        <div className="flex flex-col items-center justify-center min-h-56">
-          <div className=" flex justify-around w-[85%] bg-slate-100 rounded-b-xl">
-            <button className="px-2 py-3 w-1/3 hover:bg-blue-400 hover:text-white duration-150 rounded-bl-xl">
-              Attendence
-            </button>
-
-            <button className="px-2 py-3 w-1/3 hover:bg-blue-400 hover:text-white duration-150">
-              Schedule
-            </button>
-
-            <button className="px-2 py-3 w-1/3 hover:bg-blue-400 hover:text-white duration-150 rounded-br-xl">
-              Team
-            </button>
-          </div>
-          <div className="flex justify-around items-center  p-8 w-[80%]">
-            <p className="text-lg font-bold">Coming soon!</p>
-          </div>
+        <div className="flex flex-col items-center justify-center">
+          <TabComponent teamData={data.members} filterName={tokenData.name} />
         </div>
       </section>
     </div>
